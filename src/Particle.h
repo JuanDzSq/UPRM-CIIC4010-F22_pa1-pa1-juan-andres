@@ -14,6 +14,7 @@ class Particle{
 		Particle();
 		
 		void setMode(particleMode newMode);	
+		void setColor(bool newColor, int newNumber);
 		void setAttractPoints( vector <glm::vec3> * attract );
 		void attractToPoint(int, int);
 		void repelFromPoint(int, int);
@@ -28,6 +29,8 @@ class Particle{
 		float drag; 
 		float uniqueVal;
 		float scale;
+		bool color;
+		int number;
 		
 		particleMode mode;
 		

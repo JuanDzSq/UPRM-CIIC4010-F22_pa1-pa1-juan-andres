@@ -11,6 +11,14 @@ void Particle::setMode(particleMode newMode){
 }
 
 //------------------------------------------------------------------
+void Particle::setColor(bool newColor, int newNumber){
+	color = newColor;
+	number = newNumber;
+	
+
+}
+
+//------------------------------------------------------------------
 void Particle::setAttractPoints( vector <glm::vec3> * attract ){
 	attractPoints = attract;
 }
@@ -164,19 +172,25 @@ void Particle::update(){
 
 //------------------------------------------------------------------
 void Particle::draw(){
-
+	
 	if( mode == PARTICLE_MODE_ATTRACT ){
-		ofSetColor(255, 63, 180);
+		ofSetColor(255, 63, 180);		
 	}
 	else if( mode == PARTICLE_MODE_REPEL ){
-		ofSetColor(208, 255, 63);
+		ofSetColor(208, 255, 63);		
 	}
 	else if( mode == PARTICLE_MODE_NOISE ){
-		ofSetColor(99, 63, 255);
+		ofSetColor(99, 63, 255);		
 	}
 	else if( mode == PARTICLE_MODE_NEAREST_POINTS ){
-		ofSetColor(103, 160, 237);
+		ofSetColor(103, 160, 237);		
 	}
+
+	if (color){
+		if(number == 1){ofSetColor(255, 0, 0);}
+		else if (number == 2) {ofSetColor(0, 255, 0);}
+		else if (number == 3){ofSetColor(0, 0, 255); }
+	} 
 			
 	ofDrawCircle(pos.x, pos.y, scale * 4.0);
 }

@@ -35,6 +35,7 @@ void ofApp::resetParticles(){
 void ofApp::update(){
 	for(unsigned int i = 0; i < p.size(); i++){
 		p[i].setMode(currentMode);
+		p[i].setColor(colorChange, number);
 		p[i].update();
 	}
 	
@@ -64,32 +65,47 @@ void ofApp::draw(){
 	}
 
 	ofSetColor(230);	
-	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode.", 10, 20);
+	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nT or t to change color (red,green, blue)", 10, 20);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	if( key == '1'){
 		currentMode = PARTICLE_MODE_ATTRACT;
-		currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 		
+		currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 
+				
 	}
 	if( key == '2'){
 		currentMode = PARTICLE_MODE_REPEL;
-		currentModeStr = "2 - PARTICLE_MODE_REPEL: repels from mouse"; 				
+		currentModeStr = "2 - PARTICLE_MODE_REPEL: repels from mouse"; 
+					
 	}
 	if( key == '3'){
 		currentMode = PARTICLE_MODE_NEAREST_POINTS;
-		currentModeStr = "3 - PARTICLE_MODE_NEAREST_POINTS:"; 						
+		currentModeStr = "3 - PARTICLE_MODE_NEAREST_POINTS:"; 
+							
 	}
 	if( key == '4'){
 		currentMode = PARTICLE_MODE_NOISE;
 		currentModeStr = "4 - PARTICLE_MODE_NOISE: snow particle simulation"; 						
 		resetParticles();
 	}	
-		
+	if ((key == 't')||(key == 'T')){
+		colorChange = true;
+		number+=1;
+		if (number > 3)
+			number = 1;
+		}
+
 	if( key == ' ' ){
 		resetParticles();
 	}
+
+	if ((key == '1')||(key == '2')||(key == '3')||(key == '4')||( key == ' ' ))
+		{colorChange = false;
+		number = 0;}
+
+
 }
 
 //--------------------------------------------------------------
