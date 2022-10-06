@@ -19,6 +19,11 @@ void Particle::setColor(bool newColor, int newNumber){
 }
 
 //------------------------------------------------------------------
+void Particle::pauseParticle(bool pause2){
+pause = pause2;
+}
+
+//------------------------------------------------------------------
 void Particle::setAttractPoints( vector <glm::vec3> * attract ){
 	attractPoints = attract;
 }
@@ -55,6 +60,7 @@ void Particle::attractToPoint(int x, int y ){
 		
 		vel *= drag; //apply drag
 		vel += frc * 0.6; //apply force
+		
 }
 
 void Particle::repelFromPoint(int x, int y){
@@ -97,6 +103,7 @@ void Particle::update(){
 
 		vel *= drag; 
 		vel += frc * 0.4;
+		
 		
 		//we do this so as to skip the bounds check for the bottom and make the particles go back to the top of the screen
 		if( pos.y + vel.y > ofGetHeight() ){
@@ -143,12 +150,21 @@ void Particle::update(){
 		}
 		
 	}
+	//makes the particles stop
+	if(pause){
+		vel.x = 0;
+		vel.y = 0;
+		vel.z = 0;
+				
+		
+	}
+
+	
 	
 	
 	// UPDATE OUR POSITION
-	
-	pos += vel; 
-	
+	pos += vel;
+		
 	
 	// LIMIT THE PARTICLES TO STAY ON SCREEN 
 	//we could also pass in bounds to check - or alternatively do this at the ofApp level
@@ -185,8 +201,8 @@ void Particle::draw(){
 	else if( mode == PARTICLE_MODE_NEAREST_POINTS ){
 		ofSetColor(103, 160, 237);		
 	}
-
-	if (color){
+	//Changes the color depending on the number
+	if (color){ 
 		if(number == 1){ofSetColor(255, 0, 0);}
 		else if (number == 2) {ofSetColor(0, 255, 0);}
 		else if (number == 3){ofSetColor(0, 0, 255); }

@@ -37,6 +37,7 @@ void ofApp::update(){
 		p[i].setMode(currentMode);
 		p[i].setColor(colorChange, number);
 		p[i].update();
+		p[i].pauseParticle(pause);
 	}
 	
 	//lets add a bit of movement to the attract points
@@ -96,14 +97,20 @@ void ofApp::keyPressed(int key){
 		if (number > 3)
 			number = 1;
 		}
+	if(key == 's')
+	{if (pause == true){pause = false;}
+	else{pause = true;}}
 
 	if( key == ' ' ){
 		resetParticles();
 	}
 
-	if ((key == '1')||(key == '2')||(key == '3')||(key == '4')||( key == ' ' ))
-		{colorChange = false;
-		number = 0;}
+	if ((key == '1')||(key == '2')||(key == '3')||(key == '4')||( key == ' ' )){
+		
+		colorChange = false;
+		number = 0;
+		pause = false;
+		}
 
 
 }
