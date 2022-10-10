@@ -104,9 +104,6 @@ void ofApp::keyPressed(int key){
 		else{pause = true;}		
 	}
 
-    /*a and d are initialize to 0 in here so that in that instance (when n is 0) the velocity
-	  doesn't instantly get multiplied or divided by 2*/
-
 	if((key == 'd')||(key == 'D'))   //Indicates that we want to increase the speed 
 	{velocityMode = "doubled";n=d;d+=1;a=1;}	
 
