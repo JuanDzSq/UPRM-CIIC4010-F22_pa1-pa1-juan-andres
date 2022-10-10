@@ -108,10 +108,10 @@ void ofApp::keyPressed(int key){
 	  doesn't instantly get multiplied or divided by 2*/
 
 	if((key == 'd')||(key == 'D'))   //Indicates that we want to increase the speed 
-	{velocityMode = "doubled";n=d;d+=1;a=0;}	
+	{velocityMode = "doubled";n=d;d+=1;a=1;}	
 
 	if((key == 'a')||(key == 'A'))   //Indicates that we want to decrease the speed 
-	{velocityMode = "halved";n=a;a+=1;d=0;}
+	{velocityMode = "halved";n=a;a+=1;d=1;}
 
 
 	if( key == ' ' ){
