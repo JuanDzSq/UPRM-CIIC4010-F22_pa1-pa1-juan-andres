@@ -18,11 +18,33 @@ void Particle::setColor(bool newColor, int newNumber){
 
 }
 
-//------------------------------------------------------------------
-void Particle::pauseParticle(bool pause2){
-pause = pause2;
-}
 
+//------------------------------------------------------------------
+//Transfers parameters from ofApp
+void Particle::setVelocityChange(string newVelMode, int n){
+	velMode = newVelMode;
+	this->n = n;
+
+}
+/*Increases or decreases velocity according to what change we want/what key we pressed. the integer n is there
+so that if we press the same key consecutively it keeps increasing/decreasing the speed. If the simulator is reset and 
+there are no changes then it doesn't alter the velocity*/
+//------------------------------------------------------------------
+void Particle::changeVelocity(string newVelMode, int n){
+	
+	if(newVelMode == "doubled"){
+		pos.x+=(vel.x*pow(2,n));
+		pos.y+=(vel.y*pow(2,n));
+		pos.z=0;
+	}
+	else if(newVelMode == "halved"){
+		pos.x+=(vel.x*pow(0.5,n));
+		pos.y+=(vel.y*pow(0.5,n));
+		pos.z=0;
+	}
+
+	else if (newVelMode == "None"){pos += vel;}
+}
 //------------------------------------------------------------------
 void Particle::setAttractPoints( vector <glm::vec3> * attract ){
 	attractPoints = attract;
@@ -150,20 +172,12 @@ void Particle::update(){
 		}
 		
 	}
-	//makes the particles stop
-	if(pause){
-		vel.x = 0;
-		vel.y = 0;
-		vel.z = 0;
-				
-		
-	}
-
-	
 	
 	
 	// UPDATE OUR POSITION
-	pos += vel;
+	//pos += vel;
+	changeVelocity(velMode, n);
+	
 		
 	
 	// LIMIT THE PARTICLES TO STAY ON SCREEN 
@@ -201,7 +215,7 @@ void Particle::draw(){
 	else if( mode == PARTICLE_MODE_NEAREST_POINTS ){
 		ofSetColor(103, 160, 237);		
 	}
-	//Changes the color depending on the number
+	//Changes the color depending on the color counter/number
 	if (color){ 
 		if(number == 1){ofSetColor(255, 0, 0);}
 		else if (number == 2) {ofSetColor(0, 255, 0);}

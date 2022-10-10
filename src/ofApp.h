@@ -28,6 +28,10 @@ class ofApp : public ofBaseApp{
 		bool colorChange;
 		int number = 0;
 		bool pause = false;
+		string velocityMode = "None";
+		int n;
+		int d=1;
+		int a=1;
 
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;

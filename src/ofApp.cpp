@@ -35,9 +35,10 @@ void ofApp::resetParticles(){
 void ofApp::update(){
 	for(unsigned int i = 0; i < p.size(); i++){
 		p[i].setMode(currentMode);
-		p[i].setColor(colorChange, number);
-		p[i].update();
-		p[i].pauseParticle(pause);
+		p[i].setColor(colorChange, number);//sets parameters to change the colors
+		p[i].setVelocityChange(velocityMode,n); //sets parameters to change the velocity
+		if(!pause){p[i].update();} //Triggers particle pause
+		
 	}
 	
 	//lets add a bit of movement to the attract points
@@ -66,7 +67,7 @@ void ofApp::draw(){
 	}
 
 	ofSetColor(230);	
-	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nT or t to change color (red,green, blue)", 10, 20);
+	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.", 10, 20);
 }
 
 //--------------------------------------------------------------
@@ -94,24 +95,38 @@ void ofApp::keyPressed(int key){
 	if ((key == 't')||(key == 'T')){
 		colorChange = true;
 		number+=1;
-		if (number > 3)
-			number = 1;
+		if (number > 3) //countwr to determine color
+			number = 1; 
 		}
-	if(key == 's')
-	{if (pause == true){pause = false;}
-	else{pause = true;}}
+	if((key == 's')||(key == 'S'))
+	{
+		if (pause == true){pause = false;} //Used to check if particles are paused or are moving 
+		else{pause = true;}		
+	}
+
+    /*a and d are initialize to 0 in here so that in that instance (when n is 0) the velocity
+	  doesn't instantly get multiplied or divided by 2*/
+
+	if((key == 'd')||(key == 'D'))   //Indicates that we want to increase the speed 
+	{velocityMode = "doubled";n=d;d+=1;a=0;}	
+
+	if((key == 'a')||(key == 'A'))   //Indicates that we want to decrease the speed 
+	{velocityMode = "halved";n=a;a+=1;d=0;}
+
 
 	if( key == ' ' ){
 		resetParticles();
 	}
-
+    //Added values are reset
 	if ((key == '1')||(key == '2')||(key == '3')||(key == '4')||( key == ' ' )){
-		
+		velocityMode= "None";
+		d= 1;
+		a = 1;			
 		colorChange = false;
 		number = 0;
 		pause = false;
 		}
-
+	
 
 }
 
