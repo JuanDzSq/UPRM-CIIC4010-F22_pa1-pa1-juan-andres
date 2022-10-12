@@ -37,7 +37,7 @@ class ofApp : public ofBaseApp{
 
 		// Rectangle feature properties declartation
 		ofRectangle rect;
-		glm::vec3 rectPoint;
+		glm::vec3 rectStartPoint;
 		int releasedPx;
 		int releasedPy;
 		bool rectFlag = false;

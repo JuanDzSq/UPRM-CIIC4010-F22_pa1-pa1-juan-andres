@@ -69,14 +69,6 @@ void ofApp::draw(){
 			// Rectangle Draw
 			// --------------------------------------------------------------------------------------
 
-	if (rectFlag) {
-		rect.x = rectPoint.x;
-		rect.y = rectPoint.y;
-		rect.width = releasedPx - rectPoint.x;
-		rect.height = releasedPy - rectPoint.y;
-		rectFlag = false;
-	}
-
 	ofNoFill();
 	ofSetColor(255);
 	ofDrawRectangle(rect);			
@@ -164,8 +156,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 	if (button == 0) {
-		rectPoint.x = x;
-		rectPoint.y = y;
+		rectStartPoint.x = x;
+		rectStartPoint.y = y;
 	}
 	
 }
@@ -173,9 +165,10 @@ void ofApp::mousePressed(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
 	if (button == 0){
-		releasedPx = x;
-		releasedPy = y;
-		rectFlag = true;
+		rect.x = rectStartPoint.x;
+		rect.y = rectStartPoint.y;
+		rect.width = x - rectStartPoint.x;
+		rect.height = y - rectStartPoint.y;
 	}
 	
 }
