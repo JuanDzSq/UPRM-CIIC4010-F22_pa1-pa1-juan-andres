@@ -36,10 +36,12 @@ class ofApp : public ofBaseApp{
 		int a=1;
 
 		// Rectangle feature properties declartation
+		ofRectangle rect;
 		glm::vec3 rectPoint;
 		int releasedPx;
 		int releasedPy;
 		bool rectFlag = false;
+		bool rectPropertySet = false;
 
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;

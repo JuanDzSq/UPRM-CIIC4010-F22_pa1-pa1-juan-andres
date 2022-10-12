@@ -69,11 +69,13 @@ void ofApp::draw(){
 			// Rectangle Draw
 			// --------------------------------------------------------------------------------------
 
-	ofRectangle rect;
-	rect.x = rectPoint.x;
-	rect.y = rectPoint.y;
-	rect.width = releasedPx - rectPoint.x;
-	rect.height = releasedPy - rectPoint.y;
+	if (rectPropertySet) {
+		rect.x = rectPoint.x;
+		rect.y = rectPoint.y;
+		rect.width = releasedPx - rectPoint.x;
+		rect.height = releasedPy - rectPoint.y;
+		rectPropertySet = false;
+	}
 
 	if (rectFlag){
 		ofNoFill();
@@ -164,12 +166,10 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 	if (button == 0) {
-		rectFlag = false;
 		rectPoint.x = x;
 		rectPoint.y = y;
 	}
 	
-
 }
 
 //--------------------------------------------------------------
@@ -178,6 +178,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 		releasedPx = x;
 		releasedPy = y;
 		rectFlag = true;
+		rectPropertySet = true;
 	}
 	
 }
