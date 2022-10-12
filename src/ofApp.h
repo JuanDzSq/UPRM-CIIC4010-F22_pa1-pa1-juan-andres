@@ -41,7 +41,6 @@ class ofApp : public ofBaseApp{
 		int releasedPx;
 		int releasedPy;
 		bool rectFlag = false;
-		bool rectPropertySet = false;
 
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;

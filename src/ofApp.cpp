@@ -69,20 +69,18 @@ void ofApp::draw(){
 			// Rectangle Draw
 			// --------------------------------------------------------------------------------------
 
-	if (rectPropertySet) {
+	if (rectFlag) {
 		rect.x = rectPoint.x;
 		rect.y = rectPoint.y;
 		rect.width = releasedPx - rectPoint.x;
 		rect.height = releasedPy - rectPoint.y;
-		rectPropertySet = false;
+		rectFlag = false;
 	}
 
-	if (rectFlag){
-		ofNoFill();
-		ofSetColor(255);
-		ofDrawRectangle(rect);			
-		ofFill();
-	}
+	ofNoFill();
+	ofSetColor(255);
+	ofDrawRectangle(rect);			
+	ofFill();
 
 			// -----------------------------------------------------------------------------------------
 
@@ -178,7 +176,6 @@ void ofApp::mouseReleased(int x, int y, int button){
 		releasedPx = x;
 		releasedPy = y;
 		rectFlag = true;
-		rectPropertySet = true;
 	}
 	
 }
