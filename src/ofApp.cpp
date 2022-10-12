@@ -150,27 +150,32 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+	if (button == 0){							// This sets the properties for the rectangle: rect
+		rect.x = rectStartPoint.x;
+		rect.y = rectStartPoint.y;
+		rect.width = x - rectStartPoint.x;		// This sets the width of the rectangle based on the coordinates of mouse when dragged
+		rect.height = y - rectStartPoint.y;		// This sets the height of the rectangle based on the coordinates of mouse when dragged
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-	if (button == 0) {
+	if (button == 0){					// This sets the coordinates for the starting point of the rectangle
 		rectStartPoint.x = x;
 		rectStartPoint.y = y;
+	}
+
+	if (button == 2){					// This erases the rectangle if the coordinates of the rick click is inside the rectangle
+		if (rect.inside(x,y)){
+			rect.set(0, 0, 0, 0);
+		}
 	}
 	
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	if (button == 0){
-		rect.x = rectStartPoint.x;
-		rect.y = rectStartPoint.y;
-		rect.width = x - rectStartPoint.x;
-		rect.height = y - rectStartPoint.y;
-	}
-	
+
 }
 
 //--------------------------------------------------------------

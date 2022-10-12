@@ -35,12 +35,10 @@ class ofApp : public ofBaseApp{
 		int d=1;
 		int a=1;
 
-		// Rectangle feature properties declartation
+		// Rectangle feature properties declartation -------------
 		ofRectangle rect;
 		glm::vec3 rectStartPoint;
-		int releasedPx;
-		int releasedPy;
-		bool rectFlag = false;
+		// -------------------------------------------------------
 
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;
