@@ -66,40 +66,28 @@ void ofApp::draw(){
 		}
 	}
 
-
-	// Rectangle Draw
-	// --------------------------------------------------------------------------------------
-
-	
-	// if (rectangleD) {
-	// 	ofSetColor(200);
-	// 	ofNoFill();
-	// 	ofDrawRectangle(rectangleP, releasedPx, releasedPy);
-	// }
-
+			// Rectangle Draw
+			// --------------------------------------------------------------------------------------
 
 	ofRectangle rect;
-	rect.x = rectangleP.x;
-	rect.y = rectangleP.y;
-	rect.width = releasedPx - rectangleP.x;
-	rect.height = releasedPy - rectangleP.y;
+	rect.x = rectPoint.x;
+	rect.y = rectPoint.y;
+	rect.width = releasedPx - rectPoint.x;
+	rect.height = releasedPy - rectPoint.y;
 
-	if (rectangleD){
-		// ofDrawCircle(glm::vec2 (100,100), 30);
+	if (rectFlag){
 		ofNoFill();
 		ofSetColor(255);
-		ofDrawRectangle(rect);		
-		flag = 0;		
+		ofDrawRectangle(rect);			
 		ofFill();
 	}
-	//-----------------------------------------------------------------------------------------
 
-	
+			// -----------------------------------------------------------------------------------------
+
+
 	ofSetColor(230);	
 	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.", 10, 20);
 	
-	
-
 }
 
 //--------------------------------------------------------------
@@ -156,24 +144,11 @@ void ofApp::keyPressed(int key){
 		pause = false;
 		}
 	
-
-	if (key == 'j' && flag != 1) { 					// rectangle test
-		rectangleD = false;
-		rectangleP.x = ofGetMouseX();
-		rectangleP.y = ofGetMouseY();
-		flag = 1;
-	}
-
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){					// rectangle test
-	if (key == 'j') { 
-		releasedPx = ofGetMouseX();
-		releasedPy = ofGetMouseY();
-		//flag2 = 1;
-		rectangleD = true;
-	}
+void ofApp::keyReleased(int key){
+
 }
 
 //--------------------------------------------------------------
@@ -183,18 +158,15 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	if (button == '0') {
-		
-	}
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-	if (button == '0' && flag != 1) {
-		rectangleD = false;
-		rectangleP.x = ofGetMouseX();
-		rectangleP.y = ofGetMouseY();
-		flag = 1;
+	if (button == 0) {
+		rectFlag = false;
+		rectPoint.x = x;
+		rectPoint.y = y;
 	}
 	
 
@@ -202,11 +174,10 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	if (button == '0'){
-		releasedPx = ofGetMouseX();
-		releasedPy = ofGetMouseY();
-		//flag2 = 1;
-		rectangleD = true;
+	if (button == 0){
+		releasedPx = x;
+		releasedPy = y;
+		rectFlag = true;
 	}
 	
 }
