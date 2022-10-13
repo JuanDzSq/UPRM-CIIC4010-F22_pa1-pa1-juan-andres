@@ -12,10 +12,6 @@ void ofApp::setup(){
 	recording = false;
 	replaying = false;
 	velocityMode = "None";
-	// keys.push_back(1);
-  	// keys.push_back(2);
-  	// keys.push_back(3);	
-	//int t = 0;
 	int num = 1500;
 	p.assign(num, Particle());
 	currentMode = PARTICLE_MODE_ATTRACT;
@@ -62,10 +58,6 @@ void ofApp::update(){
 	counter += 1;
 
 	if(counter % 250 == 0 && replaying == true) {
-		// if(keys.size() == 0){
-		// 	replaying = false;
-		// }
-		// else{keyPressed(116);}
 		if(keys.size() == 0){
 			replaying = false;
 			replayLock = false;
@@ -130,12 +122,10 @@ void ofApp::keyPressed(int key){
   	if(((key == 'p')||(key == 'P')) && recording == false && replaying == false && keys.size() != 0){					// This will go when the program is not recording and is not replaying
 		replaying = true;
 		replayLock = true;
-		//Scheduler();
 	}
 	else if(((key == 'c')||(key == 'C')) && recording == false && replaying == true){				// This will go when the program is not recording but it is replaying
 		replaying = false;
 		replayLock = false;
-		//Scheduler();
 	}
 	else if (replayLock != true){																	// This will go when the program is not replaying
 		if((key == 'r')||(key == 'R')){

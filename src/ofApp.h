@@ -34,7 +34,8 @@ class ofApp : public ofBaseApp{
 		string rcrd;
 		vector <int> keys;
 		int giveInput(vector <int> input);
-
+		int counter = 1;
+		
 		string velocityMode;
 		int n;
 		int d=1;
@@ -46,31 +47,6 @@ class ofApp : public ofBaseApp{
 		vector <glm::vec3> attractPointsWithMovement;
 	
 
-		int counter = 1;
-};
-
-
-class Scheduler: public ofThread {
-public:
-	ofApp Obj;
-
-    Scheduler() {
-        timer.setPeriodicEvent(3000000000); // this is 3 second in nanoseconds
-        startThread();
-    }
-
-private:
-    ofTimer timer;
-    void threadedFunction() {
-        while(isThreadRunning()) {
-             timer.waitNext();
-			int m = Obj.giveInput(Obj.keys);
-			Obj.keyPressed(m);
-			if(Obj.keys.size() == 0){
-				Obj.replaying = false;
-				stopThread();
-			}
-        }
-    }
+		
 };
 
