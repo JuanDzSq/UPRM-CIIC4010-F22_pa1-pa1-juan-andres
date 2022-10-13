@@ -7,6 +7,8 @@ void ofApp::setup(){
 	int num = 1500;
 	p.assign(num, Particle());
 	currentMode = PARTICLE_MODE_ATTRACT;
+	recording = false;
+	replaying=false;
 
 	currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 
 
@@ -83,9 +85,25 @@ void ofApp::draw(){
 
 	ofSetColor(230);	
 	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.", 10, 20);
-	
+	if(recording){
+		ofDrawBitmapString("RECORDING",(ofGetWidth()-80),20);	
+		ofSetColor(255,0,0);
+		ofDrawCircle((ofGetWidth()-90),16, 5);	
+		}
 }
 
+void ofApp::replayMode(vector<int>storedKeys){
+
+	for(unsigned int i =0;i<storedKeys.size();i++){
+		
+			keyPressed(storedKeys[i]);	
+			update();
+			draw();		
+			Sleep(3);
+
+			
+		}
+}
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	if( key == '1'){
@@ -126,6 +144,15 @@ void ofApp::keyPressed(int key){
 	if((key == 'a')||(key == 'A'))   //Indicates that we want to decrease the speed 
 	{velocityMode = "halved";n=a;a+=1;d=1;}
 
+	if((key == 'r')||(key == 'R')){
+		if(recording==true){recording = false;}
+		else{recording = true;}		
+	}
+
+	if((key == 'p')||(key == 'P')){
+		//replaying = true;	
+		replayMode(keys);	}
+
 
 	if( key == ' ' ){
 		resetParticles();
@@ -139,7 +166,7 @@ void ofApp::keyPressed(int key){
 		number = 0;
 		pause = false;
 		}
-	
+	if((recording)&&(key!='r')){keys.push_back(key);}
 }
 
 //--------------------------------------------------------------

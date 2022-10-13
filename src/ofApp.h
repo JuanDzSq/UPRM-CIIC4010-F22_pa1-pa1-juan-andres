@@ -14,6 +14,7 @@ class ofApp : public ofBaseApp{
 		void keyPressed  (int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
+		void replayMode(vector<int>storedKeys);
 		void mouseDragged(int x, int y, int button);
 		void mousePressed(int x, int y, int button);
 		void mouseReleased(int x, int y, int button);
@@ -29,7 +30,9 @@ class ofApp : public ofBaseApp{
 	
 		bool colorChange;
 		int number = 0;
-		bool pause = false;
+		bool pause = false;		
+		bool recording;
+		bool replaying;
 		string velocityMode = "None";
 		int n;
 		int d=1;
@@ -46,5 +49,6 @@ class ofApp : public ofBaseApp{
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;
 		vector <glm::vec3> attractPointsWithMovement;
-		
+		vector <int>keys;
+				
 };
