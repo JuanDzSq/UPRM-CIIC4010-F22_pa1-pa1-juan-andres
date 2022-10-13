@@ -12,10 +12,7 @@ void ofApp::setup(){
 	recording = false;
 	replaying=false;
 	velocityMode = "None";
-	// keys.push_back(1);
-  	// keys.push_back(2);
-  	// keys.push_back(3);	
-	//int t = 0;
+
 	int num = 1500;
 	p.assign(num, Particle());
 	currentMode = PARTICLE_MODE_ATTRACT;
@@ -87,11 +84,11 @@ void ofApp::draw(){
 		ofDrawCircle((ofGetWidth()-90),16, 5);	
 		}
 	
-	else if(replaying){
+	// else if(replaying){
 
-		for(unsigned int i = 0; i<keys.size();i++){
-			ofDrawBitmapString(keys[i],(ofGetWidth()-80),20*(i+1));}
-	}
+	// 	for(unsigned int i = 0; i<keys.size();i++){
+	// 		ofDrawBitmapString(keys[i],(ofGetWidth()-80),20*(i+1));}
+	// }
 }
 
 //--------------------------------------------------------------
@@ -103,8 +100,7 @@ void ofApp::replayMode(vector<int>storedKeys){
 		
 			keyPressed(storedKeys[i]);	
 			update();
-			draw();
-			
+			draw();		
 			Sleep(3);
 
 			
@@ -116,15 +112,7 @@ void ofApp::replayMode(vector<int>storedKeys){
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	// if(replaying){
-	// 	replayMode(keys);
-      	
-		
-	// }
-		
 
-	
-	
 	if( key == '1'){
 		currentMode = PARTICLE_MODE_ATTRACT;
 		currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 

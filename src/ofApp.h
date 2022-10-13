@@ -25,6 +25,8 @@ class ofApp : public ofBaseApp{
 		
 		particleMode currentMode;
 		string currentModeStr; 
+
+	
 		bool colorChange;
 		int number = 0;
 		bool pause;
@@ -36,6 +38,14 @@ class ofApp : public ofBaseApp{
 		int d=1;
 		int a=1;
 		int count;
+
+		// Rectangle feature properties declartation -------------
+		ofRectangle rect;
+		ofRectangle particleRectBorder;
+		glm::vec3 rectBorder1;
+		glm::vec3 rectBorder2;
+		glm::vec3 rectStartPoint;
+		// -------------------------------------------------------
 
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;
