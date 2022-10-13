@@ -29,8 +29,8 @@ class ofApp : public ofBaseApp{
 		int number = 0;
 		bool pause;
 
-		bool recording = false;
-		bool replaying = false;
+		bool recording;
+		bool replaying;
 		string rcrd;
 		vector <int>keys;
 		int giveInput(vector <int> input);
