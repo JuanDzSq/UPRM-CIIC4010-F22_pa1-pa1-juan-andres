@@ -179,7 +179,6 @@ void ofApp::mousePressed(int x, int y, int button){
 	if (button == 2){					// This erases the rectangle if the coordinates of the rick click is inside the rectangle
 		if (rect.inside(x,y)){
 			rect.set(0, 0, 0, 0);
-			particleRectBorder.set(0, 0, 0, 0);
 		}
 	}
 	
