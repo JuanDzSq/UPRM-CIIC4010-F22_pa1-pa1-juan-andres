@@ -1,9 +1,21 @@
 #include "ofApp.h"
+#include<iostream>
+#include <cstdlib>
+
+using namespace std;
+
 
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(true);
-	
+	pause = false;
+	recording = false;
+	replaying=false;
+	velocityMode = "None";
+	// keys.push_back(1);
+  	// keys.push_back(2);
+  	// keys.push_back(3);	
+	//int t = 0;
 	int num = 1500;
 	p.assign(num, Particle());
 	currentMode = PARTICLE_MODE_ATTRACT;
@@ -68,10 +80,51 @@ void ofApp::draw(){
 
 	ofSetColor(230);	
 	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.", 10, 20);
+	
+	if(recording){
+		ofDrawBitmapString("RECORDING",(ofGetWidth()-80),20);	
+		ofSetColor(255,0,0);
+		ofDrawCircle((ofGetWidth()-90),16, 5);	
+		}
+	
+	else if(replaying){
+
+		for(unsigned int i = 0; i<keys.size();i++){
+			ofDrawBitmapString(keys[i],(ofGetWidth()-80),20*(i+1));}
+	}
 }
 
 //--------------------------------------------------------------
+
+void ofApp::replayMode(vector<int>storedKeys){
+
+
+	for(unsigned int i =0;i<storedKeys.size();i++){
+		
+			keyPressed(storedKeys[i]);	
+			update();
+			draw();
+			
+			Sleep(3);
+
+			
+		}
+		
+	
+
+	
+}
+//--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+	// if(replaying){
+	// 	replayMode(keys);
+      	
+		
+	// }
+		
+
+	
+	
 	if( key == '1'){
 		currentMode = PARTICLE_MODE_ATTRACT;
 		currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 
@@ -100,7 +153,7 @@ void ofApp::keyPressed(int key){
 		}
 	if((key == 's')||(key == 'S'))
 	{
-		if (pause == true){pause = false;} //Used to check if particles are paused or are moving 
+		if (pause){pause = false;} //Used to check if particles are paused or are moving 
 		else{pause = true;}		
 	}
 
@@ -109,6 +162,16 @@ void ofApp::keyPressed(int key){
 
 	if((key == 'a')||(key == 'A'))   //Indicates that we want to decrease the speed 
 	{velocityMode = "halved";n=a;a+=1;d=1;}
+
+	if((key == 'r')||(key == 'R')){
+		if(recording==true){recording = false;}
+		else{recording = true;}		
+	}
+
+	if((key == 'p')||(key == 'P')){
+		//replaying = true;	
+		replayMode(keys);	
+	}
 
 
 	if( key == ' ' ){
@@ -122,10 +185,15 @@ void ofApp::keyPressed(int key){
 		colorChange = false;
 		number = 0;
 		pause = false;
+		
 		}
+	if((recording)&&(key!='r')){keys.push_back(key);}
+	
 	
 
 }
+
+
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
