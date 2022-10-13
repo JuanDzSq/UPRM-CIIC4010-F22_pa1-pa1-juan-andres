@@ -10,7 +10,7 @@ void ofApp::setup(){
 	ofSetVerticalSync(true);
 	pause = false;
 	recording = false;
-	replaying=false;
+	replaying = false;
 	velocityMode = "None";
 	// keys.push_back(1);
   	// keys.push_back(2);
@@ -58,6 +58,25 @@ void ofApp::update(){
 		attractPointsWithMovement[i].x = attractPoints[i].x + ofSignedNoise(i * 10, ofGetElapsedTimef() * 0.7) * 12.0;
 		attractPointsWithMovement[i].y = attractPoints[i].y + ofSignedNoise(i * -10, ofGetElapsedTimef() * 0.7) * 12.0;
 	}	
+
+	counter += 1;
+
+	if(counter % 250 == 0 && replaying == true) {
+		// if(keys.size() == 0){
+		// 	replaying = false;
+		// }
+		// else{keyPressed(116);}
+		if(keys.size() == 0){
+			replaying = false;
+			replayLock = false;
+		}
+		else{
+			replayLock = false;
+			keyPressed(giveInput(keys));
+			replayLock = true;
+			}
+		
+	}
 }
 
 //--------------------------------------------------------------
@@ -88,51 +107,37 @@ void ofApp::draw(){
 		}
 	
 	else if(replaying){
-
 		for(unsigned int i = 0; i<keys.size();i++){
-			ofDrawBitmapString(keys[i],(ofGetWidth()-80),20*(i+1));}
+			//ofDrawBitmapString(keys[i],(ofGetWidth()-80),20*(i+1));
+			ofDrawBitmapString("REPLAYING",(ofGetWidth()-80),20);	
+			ofSetColor(255,0,0);
+			ofDrawCircle((ofGetWidth()-90),16, 5);
+		}
 	}
 }
 
 //--------------------------------------------------------------
-
-void ofApp::replayMode(vector<int>storedKeys){
-
-
-	for(unsigned int i =0;i<storedKeys.size();i++){
-		
-			keyPressed(storedKeys[i]);	
-			update();
-			draw();
-			
-			Sleep(3);
-
-			
-		}
-		
-	
-
-	
-}
-//--------------------------------------------------------------
 int ofApp::giveInput(vector <int> input){
-	int in = input[0];
-	input.erase(input.begin());
+	vector <int> newinput = input;
+	int in = newinput[0];
+	keys.erase(keys.begin());
 	return in;
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	// Recording feature Definition ------------------------------------------------------------------------------------------------------------
 
-	if(((key == 'p')||(key == 'P')) && recording == false && replaying == false){					// This will go when the program is not recording and is not replaying
+  	if(((key == 'p')||(key == 'P')) && recording == false && replaying == false && keys.size() != 0){					// This will go when the program is not recording and is not replaying
 		replaying = true;
-		Scheduler();
+		replayLock = true;
+		//Scheduler();
 	}
 	else if(((key == 'c')||(key == 'C')) && recording == false && replaying == true){				// This will go when the program is not recording but it is replaying
 		replaying = false;
+		replayLock = false;
 		//Scheduler();
 	}
-	else if(replaying == false){																	// This will go when the program is not replaying
+	else if (replayLock != true){																	// This will go when the program is not replaying
 		if((key == 'r')||(key == 'R')){
 			if(recording==true){recording = false;}
 			else{recording = true;}							// Starts recording

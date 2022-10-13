@@ -10,7 +10,6 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		void resetParticles();
-		void replayMode(vector <int>storedKeys);
 		void keyPressed  (int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -31,8 +30,9 @@ class ofApp : public ofBaseApp{
 
 		bool recording;
 		bool replaying;
+		bool replayLock = false;
 		string rcrd;
-		vector <int>keys;
+		vector <int> keys;
 		int giveInput(vector <int> input);
 
 		string velocityMode;
@@ -46,7 +46,7 @@ class ofApp : public ofBaseApp{
 		vector <glm::vec3> attractPointsWithMovement;
 	
 
-		
+		int counter = 1;
 };
 
 
