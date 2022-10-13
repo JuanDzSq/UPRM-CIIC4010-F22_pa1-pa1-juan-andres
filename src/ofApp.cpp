@@ -115,82 +115,89 @@ void ofApp::replayMode(vector<int>storedKeys){
 	
 }
 //--------------------------------------------------------------
+int ofApp::giveInput(vector <int> input){
+	int in = input[0];
+	input.erase(input.begin());
+	return in;
+}
+//--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	// if(replaying){
-	// 	replayMode(keys);
-      	
-		
-	// }
-		
+	// Recording feature Definition ------------------------------------------------------------------------------------------------------------
 
-	
-	
-	if( key == '1'){
-		currentMode = PARTICLE_MODE_ATTRACT;
-		currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 
-				
+	if(((key == 'p')||(key == 'P')) && recording == false && replaying == false){					// This will go when the program is not recording and is not replaying
+		replaying = true;
+		Scheduler();
 	}
-	if( key == '2'){
-		currentMode = PARTICLE_MODE_REPEL;
-		currentModeStr = "2 - PARTICLE_MODE_REPEL: repels from mouse"; 
+	else if(((key == 'c')||(key == 'C')) && recording == false && replaying == true){				// This will go when the program is not recording but it is replaying
+		replaying = false;
+		//Scheduler();
+	}
+	else if(replaying == false){																	// This will go when the program is not replaying
+		if((key == 'r')||(key == 'R')){
+			if(recording==true){recording = false;}
+			else{recording = true;}							// Starts recording
+		}
+		if((recording) && (key != 'r') && (key != 'R') && (key != 'p') && (key != 'P') && (key != 'c') && (key != 'C')){	// This records the keys pressed that are not 'r', 'p', and 'c' when program is recording
+			keys.push_back(key);
+			}
+		
+	//------------------------------------------------------------------------------------------------------------------------------------------
+		
+		if( key == '1'){
+			currentMode = PARTICLE_MODE_ATTRACT;
+			currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 
 					
-	}
-	if( key == '3'){
-		currentMode = PARTICLE_MODE_NEAREST_POINTS;
-		currentModeStr = "3 - PARTICLE_MODE_NEAREST_POINTS:"; 
-							
-	}
-	if( key == '4'){
-		currentMode = PARTICLE_MODE_NOISE;
-		currentModeStr = "4 - PARTICLE_MODE_NOISE: snow particle simulation"; 						
-		resetParticles();
-	}	
-	if ((key == 't')||(key == 'T')){
-		colorChange = true;
-		number+=1;
-		if (number > 3) //countwr to determine color
-			number = 1; 
 		}
-	if((key == 's')||(key == 'S'))
-	{
-		if (pause){pause = false;} //Used to check if particles are paused or are moving 
-		else{pause = true;}		
-	}
-
-	if((key == 'd')||(key == 'D'))   //Indicates that we want to increase the speed 
-	{velocityMode = "doubled";n=d;d+=1;a=1;}	
-
-	if((key == 'a')||(key == 'A'))   //Indicates that we want to decrease the speed 
-	{velocityMode = "halved";n=a;a+=1;d=1;}
-
-	if((key == 'r')||(key == 'R')){
-		if(recording==true){recording = false;}
-		else{recording = true;}		
-	}
-
-	if((key == 'p')||(key == 'P')){
-		//replaying = true;	
-		replayMode(keys);	
-	}
-
-
-	if( key == ' ' ){
-		resetParticles();
-	}
-    //Added values are reset
-	if ((key == '1')||(key == '2')||(key == '3')||(key == '4')||( key == ' ' )){
-		velocityMode= "None";
-		d= 1;
-		a = 1;			
-		colorChange = false;
-		number = 0;
-		pause = false;
-		
+		if( key == '2'){
+			currentMode = PARTICLE_MODE_REPEL;
+			currentModeStr = "2 - PARTICLE_MODE_REPEL: repels from mouse"; 
+						
 		}
-	if((recording)&&(key!='r')){keys.push_back(key);}
-	
-	
-
+		if( key == '3'){
+			currentMode = PARTICLE_MODE_NEAREST_POINTS;
+			currentModeStr = "3 - PARTICLE_MODE_NEAREST_POINTS:"; 
+								
+		}
+		if( key == '4'){
+			currentMode = PARTICLE_MODE_NOISE;
+			currentModeStr = "4 - PARTICLE_MODE_NOISE: snow particle simulation"; 						
+			resetParticles();
+		}	
+		if ((key == 't')||(key == 'T')){
+			colorChange = true;
+			number+=1;
+			if (number > 3) 								//countwr to determine color
+				number = 1; 
+			}
+		if((key == 's')||(key == 'S')){
+			if (pause){pause = false;} 						//Used to check if particles are paused or are moving 
+			else{pause = true;}		
+		}
+		if((key == 'd')||(key == 'D')){  					//Indicates that we want to increase the speed 
+			velocityMode = "doubled";
+			n=d;
+			d+=1;
+			a=1;
+		}	
+		if((key == 'a')||(key == 'A')){   					//Indicates that we want to decrease the speed 
+			velocityMode = "halved";
+			n=a;
+			a+=1;
+			d=1;
+		}
+		if ((key == '1')||(key == '2')||(key == '3')||(key == '4')||( key == ' ' )){
+			velocityMode= "None";
+			d= 1;
+			a = 1;			
+			colorChange = false;
+			number = 0;
+			pause = false;
+		}
+		if( key == ' ' ){
+			resetParticles();
+		}
+		//Added values are reset
+	}
 }
 
 

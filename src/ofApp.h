@@ -28,9 +28,13 @@ class ofApp : public ofBaseApp{
 		bool colorChange;
 		int number = 0;
 		bool pause;
-		bool recording;
-		bool replaying;
+
+		bool recording = false;
+		bool replaying = false;
 		string rcrd;
+		vector <int>keys;
+		int giveInput(vector <int> input);
+
 		string velocityMode;
 		int n;
 		int d=1;
@@ -40,9 +44,33 @@ class ofApp : public ofBaseApp{
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;
 		vector <glm::vec3> attractPointsWithMovement;
-		vector <int>keys;
+	
 
 		
 };
 
+
+class Scheduler: public ofThread {
+public:
+	ofApp Obj;
+
+    Scheduler() {
+        timer.setPeriodicEvent(3000000000); // this is 3 second in nanoseconds
+        startThread();
+    }
+
+private:
+    ofTimer timer;
+    void threadedFunction() {
+        while(isThreadRunning()) {
+             timer.waitNext();
+			int m = Obj.giveInput(Obj.keys);
+			Obj.keyPressed(m);
+			if(Obj.keys.size() == 0){
+				Obj.replaying = false;
+				stopThread();
+			}
+        }
+    }
+};
 
