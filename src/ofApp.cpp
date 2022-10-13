@@ -53,11 +53,7 @@ void ofApp::draw(){
     ofBackgroundGradient(ofColor(60,60,60), ofColor(10,10,10));
 
 	for(unsigned int i = 0; i < p.size(); i++){
-		if(particleRectBorder.inside(p[i].pos.x, p[i].pos.y)){					// This magnifies the particles inside the rectangle
-			p[i].setNewSize();
-			p[i].draw();
-		}
-		else{p[i].draw();}
+		p[i].draw();
 	}
 	
 	ofSetColor(190);
@@ -75,7 +71,7 @@ void ofApp::draw(){
 
 	ofNoFill();
 	ofSetColor(255);
-	ofDrawRectangle(rect);		
+	ofDrawRectangle(rect);			
 	ofFill();
 
 			// -----------------------------------------------------------------------------------------
@@ -159,13 +155,6 @@ void ofApp::mouseDragged(int x, int y, int button){
 		rect.y = rectStartPoint.y;
 		rect.width = x - rectStartPoint.x;		// This sets the width of the rectangle based on the coordinates of mouse when dragged
 		rect.height = y - rectStartPoint.y;		// This sets the height of the rectangle based on the coordinates of mouse when dragged
-
-
-		rectBorder1.x = rect.getBottomLeft().x + 5;
-		rectBorder1.y = rect.getBottomLeft().y - 5;
-		rectBorder2.x = rect.getTopRight().x - 5;
-		rectBorder2.y = rect.getTopRight().y + 5;
-		particleRectBorder.set(rectBorder1, rectBorder2);		// This creates a second rectangle that will resize the scale of particles when they leave the main rectangle
 	}
 }
 
