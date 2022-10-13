@@ -1,18 +1,9 @@
 #include "ofApp.h"
-#include<iostream>
-#include <cstdlib>
-
-using namespace std;
-
 
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(true);
-	pause = false;
-	recording = false;
-	replaying=false;
-	velocityMode = "None";
-
+	
 	int num = 1500;
 	p.assign(num, Particle());
 	currentMode = PARTICLE_MODE_ATTRACT;
@@ -62,7 +53,11 @@ void ofApp::draw(){
     ofBackgroundGradient(ofColor(60,60,60), ofColor(10,10,10));
 
 	for(unsigned int i = 0; i < p.size(); i++){
-		p[i].draw();
+		if(particleRectBorder.inside(p[i].pos.x, p[i].pos.y)){					// This magnifies the particles inside the rectangle
+			p[i].setNewSize();
+			p[i].draw();
+		}
+		else{p[i].draw();}
 	}
 	
 	ofSetColor(190);
@@ -80,7 +75,7 @@ void ofApp::draw(){
 
 	ofNoFill();
 	ofSetColor(255);
-	ofDrawRectangle(rect);			
+	ofDrawRectangle(rect);		
 	ofFill();
 
 			// -----------------------------------------------------------------------------------------
@@ -89,41 +84,10 @@ void ofApp::draw(){
 	ofSetColor(230);	
 	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.", 10, 20);
 	
-	if(recording){
-		ofDrawBitmapString("RECORDING",(ofGetWidth()-80),20);	
-		ofSetColor(255,0,0);
-		ofDrawCircle((ofGetWidth()-90),16, 5);	
-		}
-	
-	// else if(replaying){
-
-	// 	for(unsigned int i = 0; i<keys.size();i++){
-	// 		ofDrawBitmapString(keys[i],(ofGetWidth()-80),20*(i+1));}
-	// }
 }
 
-//--------------------------------------------------------------
-
-void ofApp::replayMode(vector<int>storedKeys){
-
-
-	for(unsigned int i =0;i<storedKeys.size();i++){
-		
-			keyPressed(storedKeys[i]);	
-			update();
-			draw();		
-			Sleep(3);
-
-			
-		}
-		
-	
-
-	
-}
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
 	if( key == '1'){
 		currentMode = PARTICLE_MODE_ATTRACT;
 		currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 
@@ -152,7 +116,7 @@ void ofApp::keyPressed(int key){
 		}
 	if((key == 's')||(key == 'S'))
 	{
-		if (pause){pause = false;} //Used to check if particles are paused or are moving 
+		if (pause == true){pause = false;} //Used to check if particles are paused or are moving 
 		else{pause = true;}		
 	}
 
@@ -161,16 +125,6 @@ void ofApp::keyPressed(int key){
 
 	if((key == 'a')||(key == 'A'))   //Indicates that we want to decrease the speed 
 	{velocityMode = "halved";n=a;a+=1;d=1;}
-
-	if((key == 'r')||(key == 'R')){
-		if(recording==true){recording = false;}
-		else{recording = true;}		
-	}
-
-	if((key == 'p')||(key == 'P')){
-		//replaying = true;	
-		replayMode(keys);	
-	}
 
 
 	if( key == ' ' ){
@@ -184,14 +138,9 @@ void ofApp::keyPressed(int key){
 		colorChange = false;
 		number = 0;
 		pause = false;
-		
 		}
-	if((recording)&&(key!='r')){keys.push_back(key);}
-	
 	
 }
-
-
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
@@ -210,6 +159,13 @@ void ofApp::mouseDragged(int x, int y, int button){
 		rect.y = rectStartPoint.y;
 		rect.width = x - rectStartPoint.x;		// This sets the width of the rectangle based on the coordinates of mouse when dragged
 		rect.height = y - rectStartPoint.y;		// This sets the height of the rectangle based on the coordinates of mouse when dragged
+
+
+		rectBorder1.x = rect.getBottomLeft().x + 5;
+		rectBorder1.y = rect.getBottomLeft().y - 5;
+		rectBorder2.x = rect.getTopRight().x - 5;
+		rectBorder2.y = rect.getTopRight().y + 5;
+		particleRectBorder.set(rectBorder1, rectBorder2);		// This creates a second rectangle that will resize the scale of particles when they leave the main rectangle
 	}
 }
 
@@ -223,7 +179,6 @@ void ofApp::mousePressed(int x, int y, int button){
 	if (button == 2){					// This erases the rectangle if the coordinates of the rick click is inside the rectangle
 		if (rect.inside(x,y)){
 			rect.set(0, 0, 0, 0);
-			particleRectBorder.set(0, 0, 0, 0);
 		}
 	}
 	

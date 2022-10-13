@@ -18,7 +18,6 @@ void Particle::setColor(bool newColor, int newNumber){
 
 }
 
-
 //------------------------------------------------------------------
 //Transfers parameters from ofApp
 void Particle::setVelocityChange(string newVelMode, int n){
@@ -26,6 +25,7 @@ void Particle::setVelocityChange(string newVelMode, int n){
 	this->n = n;
 
 }
+
 /*Increases or decreases velocity according to what change we want/what key we pressed. the integer n is there
 so that if we press the same key consecutively it keeps increasing/decreasing the speed. If the simulator is reset and 
 there are no changes then it doesn't alter the velocity*/
@@ -45,6 +45,13 @@ void Particle::changeVelocity(string newVelMode, int n){
 
 	else if (newVelMode == "None"){pos += vel;}
 }
+
+//------------------------------------------------------------------
+// Sets particle scale when inside the rectangle
+void Particle::setNewSize(){
+	newScale = scale * 3;
+}
+
 //------------------------------------------------------------------
 void Particle::setAttractPoints( vector <glm::vec3> * attract ){
 	attractPoints = attract;
@@ -221,7 +228,10 @@ void Particle::draw(){
 		else if (number == 2) {ofSetColor(0, 255, 0);}
 		else if (number == 3){ofSetColor(0, 0, 255); }
 	} 
-			
-	ofDrawCircle(pos.x, pos.y, scale * 4.0);
+	if(newScale != 0){								
+		ofDrawCircle(pos.x, pos.y, newScale * 4.0);				// Draws the magnified particles
+		newScale = 0;
+	}	
+	else{ofDrawCircle(pos.x, pos.y, scale * 4.0);}
 }
 

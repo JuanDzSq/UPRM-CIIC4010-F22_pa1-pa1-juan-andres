@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "Particle.h"
-#include <vector>
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -10,7 +10,7 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		void resetParticles();
-		void replayMode(vector <int>storedKeys);
+
 		void keyPressed  (int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -29,15 +29,11 @@ class ofApp : public ofBaseApp{
 	
 		bool colorChange;
 		int number = 0;
-		bool pause;
-		bool recording;
-		bool replaying;
-		string rcrd;
-		string velocityMode;
+		bool pause = false;
+		string velocityMode = "None";
 		int n;
 		int d=1;
 		int a=1;
-		int count;
 
 		// Rectangle feature properties declartation -------------
 		ofRectangle rect;
@@ -47,17 +43,8 @@ class ofApp : public ofBaseApp{
 		glm::vec3 rectStartPoint;
 		// -------------------------------------------------------
 
-		// Rectangle feature properties declartation -------------
-		ofRectangle rect;
-		glm::vec3 rectStartPoint;
-		// -------------------------------------------------------
-
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;
 		vector <glm::vec3> attractPointsWithMovement;
-		vector <int>keys;
-
 		
 };
-
-
