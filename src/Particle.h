@@ -27,7 +27,7 @@ class Particle{
 		glm::vec3 pos;
 		glm::vec3 vel;
 		glm::vec3 frc;
-		glm::vec3 backup;
+		
 		
 		float drag; 
 		float uniqueVal;
