@@ -47,6 +47,14 @@ class ofApp : public ofBaseApp{
 		glm::vec3 rectStartPoint;
 		// -------------------------------------------------------
 
+		// Rectangle feature properties declartation -------------
+		ofRectangle rect;
+		ofRectangle particleRectBorder;
+		glm::vec3 rectBorder1;
+		glm::vec3 rectBorder2;
+		glm::vec3 rectStartPoint;
+		// -------------------------------------------------------
+
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;
 		vector <glm::vec3> attractPointsWithMovement;

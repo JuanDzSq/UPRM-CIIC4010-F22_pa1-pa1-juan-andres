@@ -54,7 +54,7 @@ void ofApp::update(){
 	for(unsigned int i = 0; i < attractPointsWithMovement.size(); i++){
 		attractPointsWithMovement[i].x = attractPoints[i].x + ofSignedNoise(i * 10, ofGetElapsedTimef() * 0.7) * 12.0;
 		attractPointsWithMovement[i].y = attractPoints[i].y + ofSignedNoise(i * -10, ofGetElapsedTimef() * 0.7) * 12.0;
-	}	
+	}
 }
 
 //--------------------------------------------------------------
@@ -62,7 +62,11 @@ void ofApp::draw(){
     ofBackgroundGradient(ofColor(60,60,60), ofColor(10,10,10));
 
 	for(unsigned int i = 0; i < p.size(); i++){
-		p[i].draw();
+		if(particleRectBorder.inside(p[i].pos.x, p[i].pos.y)){					// This magnifies the particles inside the rectangle
+			p[i].setNewSize();
+			p[i].draw();
+		}
+		else{p[i].draw();}
 	}
 	
 	ofSetColor(190);
@@ -74,6 +78,17 @@ void ofApp::draw(){
 			ofDrawCircle(attractPointsWithMovement[i], 4);
 		}
 	}
+
+			// Rectangle Draw
+			// --------------------------------------------------------------------------------------
+
+	ofNoFill();
+	ofSetColor(255);
+	ofDrawRectangle(rect);		
+	ofFill();
+
+			// -----------------------------------------------------------------------------------------
+
 
 	ofSetColor(230);	
 	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.", 10, 20);
@@ -178,7 +193,6 @@ void ofApp::keyPressed(int key){
 	if((recording)&&(key!='r')){keys.push_back(key);}
 	
 	
-
 }
 
 
@@ -195,12 +209,35 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
+	if (button == 0){							// This sets the properties for the rectangle: rect
+		rect.x = rectStartPoint.x;
+		rect.y = rectStartPoint.y;
+		rect.width = x - rectStartPoint.x;		// This sets the width of the rectangle based on the coordinates of mouse when dragged
+		rect.height = y - rectStartPoint.y;		// This sets the height of the rectangle based on the coordinates of mouse when dragged
 
+
+		rectBorder1.x = rect.getBottomLeft().x + 5;
+		rectBorder1.y = rect.getBottomLeft().y - 5;
+		rectBorder2.x = rect.getTopRight().x - 5;
+		rectBorder2.y = rect.getTopRight().y + 5;
+		particleRectBorder.set(rectBorder1, rectBorder2);		// This creates a second rectangle that will resize the scale of particles when they leave the main rectangle
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+	if (button == 0){					// This sets the coordinates for the starting point of the rectangle
+		rectStartPoint.x = x;
+		rectStartPoint.y = y;
+	}
 
+	if (button == 2){					// This erases the rectangle if the coordinates of the rick click is inside the rectangle
+		if (rect.inside(x,y)){
+			rect.set(0, 0, 0, 0);
+			particleRectBorder.set(0, 0, 0, 0);
+		}
+	}
+	
 }
 
 //--------------------------------------------------------------
