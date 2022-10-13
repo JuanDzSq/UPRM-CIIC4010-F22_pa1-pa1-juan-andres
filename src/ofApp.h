@@ -37,6 +37,9 @@ class ofApp : public ofBaseApp{
 
 		// Rectangle feature properties declartation -------------
 		ofRectangle rect;
+		ofRectangle particleRectBorder;
+		glm::vec3 rectBorder1;
+		glm::vec3 rectBorder2;
 		glm::vec3 rectStartPoint;
 		// -------------------------------------------------------
 
