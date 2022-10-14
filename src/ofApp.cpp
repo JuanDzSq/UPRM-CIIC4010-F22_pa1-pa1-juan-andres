@@ -92,7 +92,7 @@ void ofApp::draw(){
 	}
 
 	ofSetColor(230);	
-	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.\nr to start and stop a recording.\np to replay the recording.\nc to cancel it.", 10, 20);
+	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.\nr to start and stop a recording.\np to replay the recording.\nc to cancel the replay.", 10, 20);
 
 			// Rectangle Draw
 			// --------------------------------------------------------------------------------------
