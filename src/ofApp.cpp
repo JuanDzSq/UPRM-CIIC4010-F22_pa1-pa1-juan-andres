@@ -135,8 +135,8 @@ void ofApp::keyPressed(int key){
 			else{
 				keys.clear();					// Clears previous recording
 				newinput.clear();
-				recording = true;
-			}							// Starts recording
+				recording = true;				// Starts recording
+			}							
 		}
 		if((recording) && (key != 'r') && (key != 'R') && (key != 'p') && (key != 'P') && (key != 'c') && (key != 'C')){	// This records the keys pressed that are not 'r', 'p', and 'c' when program is recording
 			keys.push_back(key);
