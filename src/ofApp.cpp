@@ -58,16 +58,15 @@ void ofApp::update(){
 	counter += 1;
 
 	if(counter % 250 == 0 && replaying == true) {
-		if(keys.size() == 0){
+		replayLock = false;									// The lock gets released so that the replay can make the keyPress
+		keyPressed(giveInput(keys));
+		replayLock = true;									// This will make it so that the program does not listen to any keys pressed during a replay
+
+		if(newinput.size() == 0){
 			replaying = false;
 			replayLock = false;
 		}
-		else{
-			replayLock = false;
-			keyPressed(giveInput(keys));
-			replayLock = true;
-			}
-		
+
 	}
 }
 
@@ -99,20 +98,19 @@ void ofApp::draw(){
 		}
 	
 	else if(replaying){
-		for(unsigned int i = 0; i<keys.size();i++){
-			//ofDrawBitmapString(keys[i],(ofGetWidth()-80),20*(i+1));
-			ofDrawBitmapString("REPLAYING",(ofGetWidth()-80),20);	
-			ofSetColor(255,0,0);
-			ofDrawCircle((ofGetWidth()-90),16, 5);
-		}
+		ofDrawBitmapString("REPLAYING",(ofGetWidth()-80),20);	
+		ofSetColor(255,0,0);
+		ofDrawCircle((ofGetWidth()-90),16, 5);
 	}
 }
 
 //--------------------------------------------------------------
 int ofApp::giveInput(vector <int> input){
-	vector <int> newinput = input;
+	if(newinput.size() == 0){			// The input vector will not copy to newinput vector unless the replay finished or a Cancel is called
+		newinput = input;
+	}
 	int in = newinput[0];
-	keys.erase(keys.begin());
+	newinput.erase(newinput.begin());	
 	return in;
 }
 //--------------------------------------------------------------
@@ -120,17 +118,25 @@ void ofApp::keyPressed(int key){
 	// Recording feature Definition ------------------------------------------------------------------------------------------------------------
 
   	if(((key == 'p')||(key == 'P')) && recording == false && replaying == false && keys.size() != 0){					// This will go when the program is not recording and is not replaying
+		counter = 1;
 		replaying = true;
-		replayLock = true;
+		replayLock = true;																								// This will make it so that the program does not listen to any keys pressed during a replay
 	}
 	else if(((key == 'c')||(key == 'C')) && recording == false && replaying == true){				// This will go when the program is not recording but it is replaying
 		replaying = false;
 		replayLock = false;
+		newinput.clear();
 	}
 	else if (replayLock != true){																	// This will go when the program is not replaying
 		if((key == 'r')||(key == 'R')){
-			if(recording==true){recording = false;}
-			else{recording = true;}							// Starts recording
+			if(recording==true){
+				recording = false;
+			}
+			else{
+				keys.clear();					// Clears previous recording
+				newinput.clear();
+				recording = true;
+			}							// Starts recording
 		}
 		if((recording) && (key != 'r') && (key != 'R') && (key != 'p') && (key != 'P') && (key != 'c') && (key != 'C')){	// This records the keys pressed that are not 'r', 'p', and 'c' when program is recording
 			keys.push_back(key);

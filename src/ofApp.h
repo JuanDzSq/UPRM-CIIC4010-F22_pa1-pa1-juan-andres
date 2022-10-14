@@ -33,9 +33,10 @@ class ofApp : public ofBaseApp{
 		bool replayLock = false;
 		string rcrd;
 		vector <int> keys;
+		vector <int> newinput;
 		int giveInput(vector <int> input);
 		int counter = 1;
-		
+
 		string velocityMode;
 		int n;
 		int d=1;
