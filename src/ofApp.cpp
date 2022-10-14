@@ -1,14 +1,19 @@
 #include "ofApp.h"
+#include<iostream>
+#include <cstdlib>
+
+using namespace std;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(true);
-	
+	pause = false;
+	recording = false;
+	replaying = false;
+	velocityMode = "None";
 	int num = 1500;
 	p.assign(num, Particle());
 	currentMode = PARTICLE_MODE_ATTRACT;
-	recording = false;
-	replaying=false;
 
 	currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 
 
@@ -47,7 +52,21 @@ void ofApp::update(){
 	for(unsigned int i = 0; i < attractPointsWithMovement.size(); i++){
 		attractPointsWithMovement[i].x = attractPoints[i].x + ofSignedNoise(i * 10, ofGetElapsedTimef() * 0.7) * 12.0;
 		attractPointsWithMovement[i].y = attractPoints[i].y + ofSignedNoise(i * -10, ofGetElapsedTimef() * 0.7) * 12.0;
+		}	
+	
+	counter += 1;
+
+	if(counter % 250 == 0 && replaying == true) {
+		replayLock = false;									// The lock gets released so that the replay can make the keyPress
+		keyPressed(giveInput(keys));
+		replayLock = true;									// This will make it so that the program does not listen to any keys pressed during a replay
+
+		if(newinput.size() == 0){
+			replaying = false;
+			replayLock = false;
+		}
 	}
+	
 }
 
 //--------------------------------------------------------------
@@ -72,6 +91,9 @@ void ofApp::draw(){
 		}
 	}
 
+	ofSetColor(230);	
+	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.", 10, 20);
+
 			// Rectangle Draw
 			// --------------------------------------------------------------------------------------
 
@@ -82,91 +104,114 @@ void ofApp::draw(){
 
 			// -----------------------------------------------------------------------------------------
 
-
-	ofSetColor(230);	
-	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.", 10, 20);
 	if(recording){
 		ofDrawBitmapString("RECORDING",(ofGetWidth()-80),20);	
 		ofSetColor(255,0,0);
 		ofDrawCircle((ofGetWidth()-90),16, 5);	
 		}
+	
+	else if(replaying){
+		ofDrawBitmapString("REPLAYING",(ofGetWidth()-80),20);	
+		ofSetColor(255,0,0);
+		ofDrawCircle((ofGetWidth()-90),16, 5);
+	}
 }
 
-void ofApp::replayMode(vector<int>storedKeys){
-
-	for(unsigned int i =0;i<storedKeys.size();i++){
-		
-			keyPressed(storedKeys[i]);	
-			update();
-			draw();		
-			Sleep(3);
-
-			
-		}
+//--------------------------------------------------------------
+int ofApp::giveInput(vector <int> input){
+	if(newinput.size() == 0){			// The input vector will not copy to newinput vector unless the replay finished or a Cancel is called
+		newinput = input;
+	}
+	int in = newinput[0];
+	newinput.erase(newinput.begin());	
+	return in;
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	if( key == '1'){
-		currentMode = PARTICLE_MODE_ATTRACT;
-		currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 
-				
+	// Recording feature Definition ------------------------------------------------------------------------------------------------------------
+
+  	if(((key == 'p')||(key == 'P')) && recording == false && replaying == false && keys.size() != 0){					// This will go when the program is not recording and is not replaying
+		counter = 1;
+		replaying = true;
+		replayLock = true;																								// This will make it so that the program does not listen to any keys pressed during a replay
 	}
-	if( key == '2'){
-		currentMode = PARTICLE_MODE_REPEL;
-		currentModeStr = "2 - PARTICLE_MODE_REPEL: repels from mouse"; 
+	else if(((key == 'c')||(key == 'C')) && recording == false && replaying == true){				// This will go when the program is not recording but it is replaying
+		replaying = false;
+		replayLock = false;
+		newinput.clear();
+	}
+	else if (replayLock != true){																	// This will go when the program is not replaying
+		if((key == 'r')||(key == 'R')){
+			if(recording==true){
+				recording = false;
+			}
+			else{
+				keys.clear();					// Clears previous recording
+				newinput.clear();
+				recording = true;				// Starts recording
+			}							
+		}
+		if((recording) && (key != 'r') && (key != 'R') && (key != 'p') && (key != 'P') && (key != 'c') && (key != 'C')){	// This records the keys pressed that are not 'r', 'p', and 'c' when program is recording
+			keys.push_back(key);
+			}
+		
+	//------------------------------------------------------------------------------------------------------------------------------------------
+		
+		if( key == '1'){
+			currentMode = PARTICLE_MODE_ATTRACT;
+			currentModeStr = "1 - PARTICLE_MODE_ATTRACT: attracts to mouse"; 
 					
-	}
-	if( key == '3'){
-		currentMode = PARTICLE_MODE_NEAREST_POINTS;
-		currentModeStr = "3 - PARTICLE_MODE_NEAREST_POINTS:"; 
-							
-	}
-	if( key == '4'){
-		currentMode = PARTICLE_MODE_NOISE;
-		currentModeStr = "4 - PARTICLE_MODE_NOISE: snow particle simulation"; 						
-		resetParticles();
-	}	
-	if ((key == 't')||(key == 'T')){
-		colorChange = true;
-		number+=1;
-		if (number > 3) //countwr to determine color
-			number = 1; 
 		}
-	if((key == 's')||(key == 'S'))
-	{
-		if (pause == true){pause = false;} //Used to check if particles are paused or are moving 
-		else{pause = true;}		
-	}
-
-	if((key == 'd')||(key == 'D'))   //Indicates that we want to increase the speed 
-	{velocityMode = "doubled";n=d;d+=1;a=1;}	
-
-	if((key == 'a')||(key == 'A'))   //Indicates that we want to decrease the speed 
-	{velocityMode = "halved";n=a;a+=1;d=1;}
-
-	if((key == 'r')||(key == 'R')){
-		if(recording==true){recording = false;}
-		else{recording = true;}		
-	}
-
-	if((key == 'p')||(key == 'P')){
-		//replaying = true;	
-		replayMode(keys);	}
-
-
-	if( key == ' ' ){
-		resetParticles();
-	}
-    //Added values are reset
-	if ((key == '1')||(key == '2')||(key == '3')||(key == '4')||( key == ' ' )){
-		velocityMode= "None";
-		d= 1;
-		a = 1;			
-		colorChange = false;
-		number = 0;
-		pause = false;
+		if( key == '2'){
+			currentMode = PARTICLE_MODE_REPEL;
+			currentModeStr = "2 - PARTICLE_MODE_REPEL: repels from mouse"; 
+						
 		}
-	if((recording)&&(key!='r')){keys.push_back(key);}
+		if( key == '3'){
+			currentMode = PARTICLE_MODE_NEAREST_POINTS;
+			currentModeStr = "3 - PARTICLE_MODE_NEAREST_POINTS:"; 
+								
+		}
+		if( key == '4'){
+			currentMode = PARTICLE_MODE_NOISE;
+			currentModeStr = "4 - PARTICLE_MODE_NOISE: snow particle simulation"; 						
+			resetParticles();
+		}	
+		if ((key == 't')||(key == 'T')){
+			colorChange = true;
+			number+=1;
+			if (number > 3) 								//countwr to determine color
+				number = 1; 
+			}
+		if((key == 's')||(key == 'S')){
+			if (pause){pause = false;} 						//Used to check if particles are paused or are moving 
+			else{pause = true;}		
+		}
+		if((key == 'd')||(key == 'D')){  					//Indicates that we want to increase the speed 
+			velocityMode = "doubled";
+			n=d;
+			d+=1;
+			a=1;
+		}	
+		if((key == 'a')||(key == 'A')){   					//Indicates that we want to decrease the speed 
+			velocityMode = "halved";
+			n=a;
+			a+=1;
+			d=1;
+		}
+		if ((key == '1')||(key == '2')||(key == '3')||(key == '4')||( key == ' ' )){
+			velocityMode= "None";
+			d= 1;
+			a = 1;			
+			colorChange = false;
+			number = 0;
+			pause = false;
+		}
+		if( key == ' ' ){
+			resetParticles();
+		}
+		//Added values are reset
+	}
 }
 
 //--------------------------------------------------------------
@@ -188,12 +233,14 @@ void ofApp::mouseDragged(int x, int y, int button){
 		rect.height = y - rectStartPoint.y;		// This sets the height of the rectangle based on the coordinates of mouse when dragged
 
 
+
 		rectBorder1.x = rect.getBottomLeft().x + 5;
 		rectBorder1.y = rect.getBottomLeft().y - 5;
 		rectBorder2.x = rect.getTopRight().x - 5;
 		rectBorder2.y = rect.getTopRight().y + 5;
 		particleRectBorder.set(rectBorder1, rectBorder2);		// This creates a second rectangle that will resize the scale of particles when they leave the main rectangle
 	}
+	
 }
 
 //--------------------------------------------------------------

@@ -10,11 +10,9 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		void resetParticles();
-
 		void keyPressed  (int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
-		void replayMode(vector<int>storedKeys);
 		void mouseDragged(int x, int y, int button);
 		void mousePressed(int x, int y, int button);
 		void mouseReleased(int x, int y, int button);
@@ -26,14 +24,21 @@ class ofApp : public ofBaseApp{
 		
 		particleMode currentMode;
 		string currentModeStr; 
-
-	
 		bool colorChange;
 		int number = 0;
-		bool pause = false;		
+		bool pause;
+		
+		
 		bool recording;
 		bool replaying;
-		string velocityMode = "None";
+		bool replayLock = false;
+		string rcrd;
+		vector <int> keys;
+		vector <int> newinput;
+		int giveInput(vector <int> input);
+		int counter = 1;
+
+		string velocityMode;
 		int n;
 		int d=1;
 		int a=1;
@@ -49,6 +54,5 @@ class ofApp : public ofBaseApp{
 		vector <Particle> p;
 		vector <glm::vec3> attractPoints;
 		vector <glm::vec3> attractPointsWithMovement;
-		vector <int>keys;
-				
+		
 };
