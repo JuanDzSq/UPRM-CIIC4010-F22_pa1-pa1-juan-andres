@@ -182,7 +182,7 @@ void Particle::update(){
 	
 	
 	// UPDATE OUR POSITION
-	//pos += vel;
+	
 	changeVelocity(velMode, n);
 	
 		
