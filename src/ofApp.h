@@ -25,7 +25,7 @@ class ofApp : public ofBaseApp{
 		particleMode currentMode;
 		string currentModeStr; 
 		bool colorChange;
-		int number = 0;
+		int colorCounter= 0;
 		bool pause;
 		
 		
@@ -40,8 +40,8 @@ class ofApp : public ofBaseApp{
 
 		string velocityMode;
 		int n;
-		int d=1;
-		int a=1;
+		int doubled=1;
+		int halved=1;
 
 		// Rectangle feature properties declartation -------------
 		ofRectangle rect;

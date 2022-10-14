@@ -13,16 +13,16 @@ void Particle::setMode(particleMode newMode){
 //------------------------------------------------------------------
 void Particle::setColor(bool newColor, int newNumber){
 	color = newColor;
-	number = newNumber;
+	colorCounter= newNumber;
 	
 
 }
 
 //------------------------------------------------------------------
 //Transfers parameters from ofApp
-void Particle::setVelocityChange(string newVelMode, int n){
+void Particle::setVelocityChange(string newVelMode, int velchange){
 	velMode = newVelMode;
-	this->n = n;
+	n = velchange;
 
 }
 
@@ -224,9 +224,9 @@ void Particle::draw(){
 	}
 	//Changes the color depending on the color counter/number
 	if (color){ 
-		if(number == 1){ofSetColor(255, 0, 0);}
-		else if (number == 2) {ofSetColor(0, 255, 0);}
-		else if (number == 3){ofSetColor(0, 0, 255); }
+		if(colorCounter == 1){ofSetColor(255, 0, 0);}
+		else if (colorCounter == 2) {ofSetColor(0, 255, 0);}
+		else if (colorCounter == 3){ofSetColor(0, 0, 255); }
 	} 
 	if(newScale != 0){								
 		ofDrawCircle(pos.x, pos.y, newScale * 4.0);				// Draws the magnified particles

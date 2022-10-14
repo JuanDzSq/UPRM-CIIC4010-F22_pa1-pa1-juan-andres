@@ -42,7 +42,7 @@ void ofApp::resetParticles(){
 void ofApp::update(){
 	for(unsigned int i = 0; i < p.size(); i++){
 		p[i].setMode(currentMode);
-		p[i].setColor(colorChange, number);//sets parameters to change the colors
+		p[i].setColor(colorChange, colorCounter);//sets parameters to change the colors
 		p[i].setVelocityChange(velocityMode,n); //sets parameters to change the velocity
 		if(!pause){p[i].update();} //Triggers particle pause
 		
@@ -92,7 +92,7 @@ void ofApp::draw(){
 	}
 
 	ofSetColor(230);	
-	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.", 10, 20);
+	ofDrawBitmapString(currentModeStr + "\n\nSpacebar to reset. \nKeys 1-4 to change mode. \nt to change color (red, green, blue). \ns to pause particles. \nd to increase the particle's speed, a to decrease it.\nr to start and stop a recording.\np to replay the recording.\nc to cancel it.", 10, 20);
 
 			// Rectangle Draw
 			// --------------------------------------------------------------------------------------
@@ -112,8 +112,9 @@ void ofApp::draw(){
 	
 	else if(replaying){
 		ofDrawBitmapString("REPLAYING",(ofGetWidth()-80),20);	
-		ofSetColor(255,0,0);
-		ofDrawCircle((ofGetWidth()-90),16, 5);
+		ofSetColor(230);
+		ofDrawTriangle((ofGetWidth()-95),7, (ofGetWidth())-95,22, (ofGetWidth()-85),15);
+		ofDrawTriangle((ofGetWidth()-107),7, (ofGetWidth())-107,22, (ofGetWidth()-97),15);	
 	}
 }
 
@@ -179,9 +180,9 @@ void ofApp::keyPressed(int key){
 		}	
 		if ((key == 't')||(key == 'T')){
 			colorChange = true;
-			number+=1;
-			if (number > 3) 								//countwr to determine color
-				number = 1; 
+			colorCounter+=1;
+			if (colorCounter > 3) 								//countwr to determine color
+				colorCounter = 1; 
 			}
 		if((key == 's')||(key == 'S')){
 			if (pause){pause = false;} 						//Used to check if particles are paused or are moving 
@@ -189,22 +190,22 @@ void ofApp::keyPressed(int key){
 		}
 		if((key == 'd')||(key == 'D')){  					//Indicates that we want to increase the speed 
 			velocityMode = "doubled";
-			n=d;
-			d+=1;
-			a=1;
+			n=doubled;
+			doubled+=1;
+			halved=1;
 		}	
 		if((key == 'a')||(key == 'A')){   					//Indicates that we want to decrease the speed 
 			velocityMode = "halved";
-			n=a;
-			a+=1;
-			d=1;
+			n=halved;
+			halved+=1;
+			doubled=1;
 		}
 		if ((key == '1')||(key == '2')||(key == '3')||(key == '4')||( key == ' ' )){
 			velocityMode= "None";
-			d= 1;
-			a = 1;			
+			doubled= 1;
+			halved = 1;			
 			colorChange = false;
-			number = 0;
+			colorCounter = 0;
 			pause = false;
 		}
 		if( key == ' ' ){
