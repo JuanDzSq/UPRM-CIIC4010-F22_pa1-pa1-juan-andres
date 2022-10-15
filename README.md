@@ -22,3 +22,19 @@ If a partner has no commits in the repositories, he will receive a 0.
 
 ## Student Notes
 If you have any notes to add for your TA about the project specs or creative additions, you may do so in this section of the README
+
+Team Member 1: Andrés Torres
+
+ Github Username: andrestorres18  
+ 
+ Email:  andres.torres18@upr.edu 
+ 
+ Team Member 2: Juan Díaz
+
+ Github Username: Juan-Dz
+
+ Email: juan.diaz33@upr.edu
+ 
+Description: This is a program that simulates particle behavior. Features include 4 different particle modes (PARTICLE_MODE_ATTRACT, PARTICLE_MODE_REPEL, PARTICLE_MODE_NEAREST_POINTS, PARTICLE_MODE_NOISE), changing the color of the particles (red, green,blue), stopping the particles' movement, increasing and decreasing the particles' speed, a magnifying rectangle and a record replay feature.
+ 
+ 
